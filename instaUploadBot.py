@@ -34,14 +34,26 @@ async def on_message(message):
     # check discord messages
     garb = ["ss", "Ss", "sS", "SS"]
     garb2 = ["verified", "Verified"]
-    if str(message.channel) == "test" and len(message.content.split()) > 0:
+    if str(message.channel) == "confirmed-availibility" and len(message.content.split()) > 0:
         msgs = message.content.splitlines()
-        for i, j in enumerate(msgs):
-            if any(x in garb for x in j.split()):
-                del msgs[i]
+        emptyList = []
+        # break the big lines based on commas
+        for count, line in enumerate(msgs):
+            if len(line.split()) > 5:
+                s = line.split(",")
+                for i in s:
+                    emptyList.append(str(i))
+            else:
+                emptyList.append(line)
 
+        # delete any lines that has ss in it
+        for i, j in enumerate(emptyList):
+            if any(x in garb for x in j.split()):
+                del emptyList[i]
+
+        # create the final message and remove any channel id and tag
         finalMsg = []
-        for msg in msgs:
+        for msg in emptyList:
             words = msg.split()
             if any(x in garb2 for x in words):
 
@@ -51,7 +63,7 @@ async def on_message(message):
                 y = [a for a in words if not "<" in a]
                 finalMsg.append(" ".join(y))
 
-        text = "\n".join(finalMsg)
+        text = "\n\n".join(finalMsg)
 
         # get the attachment image
         url = message.attachments[0].url
@@ -64,7 +76,7 @@ async def on_message(message):
         bg = PIL.Image.open("./background.jpeg")
         ss = PIL.Image.open("./ss.jpeg")
         dim = ss.height * ss.width
-        ss_resize = ss.resize((int(ss.width / 2), int(ss.height / 2)))
+        ss_resize = ss.resize((int(ss.width / 3), int(ss.height / 3)))
         if dim < 1000000:
             PIL.Image.Image.paste(bg, ss, (250, 0))
         else:
@@ -89,7 +101,7 @@ async def on_message(message):
         # create the image
         img = PIL.Image.new('RGB', (1000, 667), color)
         d = PIL.ImageDraw.Draw(img)
-        myfont = PIL.ImageFont.truetype("Lato-Bold.ttf", 28)
+        myfont = PIL.ImageFont.truetype("Lato-Bold.ttf", 35)
         d.text((30, 30), text, fill=(0, 0, 0), font=myfont)
 
         img_name = "myImage"
@@ -100,13 +112,17 @@ async def on_message(message):
         # upload the image on instagram
         place_list = []
         for channel in message.channel_mentions:
-            hash = "#"+str(channel)
-            place_list.append(hash)
+            if channel == "new-delhi-ncr":
+                hash = "#Delhi"
+                place_list.append(hash)
+            else:
+                hash = "#"+str(channel)
+                place_list.append(hash)
 
         caption = "Resource availability and contact point verified only. Please do you due diligence before making any"\
                 "purchase. DO NOT MAKE ANY ADVANCE PAYMENT - IN CASE SOMEONE ASKS, REPORT THEM AND WRITE IN THE COMMENT"\
                 "SECTION #covid19India #covidhelp #covidresources #oxygencylinder"\
-                "#beds #icu #amiplify #covid #{}".format(" ".join(place_list))
+                "#beds #icu #amiplify #covid {}".format(" ".join(place_list))
 
         photo_list = [Path("./myImage.jpeg"), Path("./pasted.jpeg")]
         bot.album_upload(photo_list, caption)

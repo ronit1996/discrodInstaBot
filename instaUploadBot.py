@@ -10,10 +10,14 @@ from pathlib import Path
 import requests
 import shutil
 
+# get credentials
+with open("./token.txt") as f:
+    TOKEN = f.readlines()
+
 # uploading on insta
 bot = Client()
-username = "ron_vfx"
-password = "#Nitrodes1996"
+username = TOKEN[1]
+password = TOKEN[2]
 bot.login(username, password)
 print("Logged in")
 
@@ -109,6 +113,5 @@ async def on_message(message):
 
         print("Instagram upload complete")
 
-with open("./token.txt") as f:
-    TOKEN = f.readline()
-client.run(TOKEN)
+
+client.run(TOKEN[0])

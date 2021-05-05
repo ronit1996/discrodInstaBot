@@ -93,7 +93,7 @@ async def on_message(message):
             color = (73, 146, 211)
         elif "concentrator" in word_list:
             color = (73, 146, 211)
-        elif any(x in ["icu", "bed", "beds", "ambulance", "home-icu", "home"] for x in word_list):
+        elif any(x in ["icu", "bed", "beds", "ambulance", "home-icu", "home", "plasma", "donor"] for x in word_list):
             color = (255, 69, 67)
         else:
             color = (215, 164, 0)
@@ -112,7 +112,7 @@ async def on_message(message):
         # upload the image on instagram
         place_list = []
         for channel in message.channel_mentions:
-            if channel == "new-delhi-ncr":
+            if str(channel) == "new-delhi-ncr":
                 hash = "#Delhi"
                 place_list.append(hash)
             else:

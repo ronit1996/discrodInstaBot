@@ -9,6 +9,7 @@ import io
 from pathlib import Path
 import requests
 import shutil
+import textwrap
 
 # get credentials
 with open("./token.txt") as f:
@@ -32,38 +33,22 @@ async def on_ready():
 @client.event
 async def on_message(message):
     # check discord messages
-    garb = ["ss", "Ss", "sS", "SS"]
     garb2 = ["verified", "Verified"]
     if str(message.channel) == "confirmed-availibility" and len(message.content.split()) > 0:
         msgs = message.content.splitlines()
-        emptyList = []
-        # break the big lines based on commas
-        for count, line in enumerate(msgs):
-            if len(line.split()) > 5:
-                s = line.split(",")
-                for i in s:
-                    emptyList.append(str(i))
-            else:
-                emptyList.append(line)
 
-        # delete any lines that has ss in it
-        for i, j in enumerate(emptyList):
-            if any(x in garb for x in j.split()):
-                del emptyList[i]
-
-        # create the final message and remove any channel id and tag
         finalMsg = []
-        for msg in emptyList:
+        for msg in msgs:
             words = msg.split()
             if any(x in garb2 for x in words):
 
-                z = [a for a in words if not "@" in a]
-                finalMsg.append(" ".join(z))
+                x = [a for a in words if not "@" in a]
+                finalMsg.append("\n".join(textwrap.wrap(" ".join(x), 35)))
             else:
-                y = [a for a in words if not "<" in a]
-                finalMsg.append(" ".join(y))
+                z = [a for a in words if not "<" in a]
+                finalMsg.append("\n".join(textwrap.wrap(" ".join(z), 35)))
 
-        text = "\n\n".join(finalMsg)
+        text = "\n".join(finalMsg)
 
         # get the attachment image
         url = message.attachments[0].url
@@ -93,7 +78,7 @@ async def on_message(message):
             color = (73, 146, 211)
         elif "concentrator" in word_list:
             color = (73, 146, 211)
-        elif any(x in ["icu", "bed", "beds", "ambulance", "home-icu", "home", "plasma", "donor"] for x in word_list):
+        elif any(x in ["icu", "bed", "beds", "ambulance", "home-icu", "home", "plasma", "donor", "blood"] for x in word_list):
             color = (255, 69, 67)
         else:
             color = (215, 164, 0)
@@ -101,7 +86,7 @@ async def on_message(message):
         # create the image
         img = PIL.Image.new('RGB', (1000, 667), color)
         d = PIL.ImageDraw.Draw(img)
-        myfont = PIL.ImageFont.truetype("Lato-Bold.ttf", 35)
+        myfont = PIL.ImageFont.truetype("Lato-Bold.ttf", 40)
         d.text((30, 30), text, fill=(0, 0, 0), font=myfont)
 
         img_name = "myImage"

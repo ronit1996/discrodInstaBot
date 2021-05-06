@@ -86,9 +86,9 @@ async def on_message(message):
             color = (215, 164, 0)
 
         # create the image
-        img = PIL.Image.new('RGB', (1000, 667), color)
+        img = PIL.Image.new('RGB', (1080, 1350), color)
         d = PIL.ImageDraw.Draw(img)
-        myfont = PIL.ImageFont.truetype("Lato-Bold.ttf", 40)
+        myfont = PIL.ImageFont.truetype("Lato-Bold.ttf", 50)
         d.text((30, 30), text, fill=(0, 0, 0), font=myfont)
 
         img_name = "myImage"

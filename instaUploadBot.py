@@ -63,7 +63,7 @@ async def on_message(message):
         bg = PIL.Image.open("./background.jpeg")
         ss = PIL.Image.open("./ss.jpeg")
         dim = ss.height * ss.width
-        ss_resize = ss.resize((int(ss.width / 3), int(ss.height / 3)))
+        ss_resize = ss.resize((int(ss.width/2), int(ss.height/2)))
         if dim < 1000000:
             PIL.Image.Image.paste(bg, ss, (250, 0))
         else:
@@ -106,10 +106,10 @@ async def on_message(message):
                 hash = "#"+str(channel)
                 place_list.append(hash)
 
-        caption = "Resource availability and contact point verified only. Please do you due diligence before making any"\
+        caption = "Resource availability and contact point verified only. Please do your due diligence before making any"\
                 "purchase. DO NOT MAKE ANY ADVANCE PAYMENT - IN CASE SOMEONE ASKS, REPORT THEM AND WRITE IN THE COMMENT"\
-                "SECTION #covid19India #covidhelp #covidresources #oxygencylinder"\
-                "#beds #icu #amiplify #covid {}".format(" ".join(place_list))
+                " SECTION #covid19India #covidhelp #covidresources #oxygencylinder"\
+                "#beds #icu #amplify #covid {}".format(" ".join(place_list))
 
         photo_list = [Path("./myImage.jpeg"), Path("./pasted.jpeg")]
         bot.album_upload(photo_list, caption)

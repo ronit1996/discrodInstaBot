@@ -10,12 +10,13 @@ from pathlib import Path
 import requests
 import shutil
 import textwrap
+import datetime
 
 # get credentials
 with open("./token.txt") as f:
     TOKEN = f.readlines()
 
-# uploading on insta
+# instagram log in
 bot = Client()
 username = TOKEN[1]
 password = TOKEN[2]
@@ -49,6 +50,7 @@ async def on_message(message):
                 finalMsg.append("\n".join(textwrap.wrap(" ".join(z), 35)))
 
         text = "\n".join(finalMsg)
+        text = text + "\n\nVerification time - {}, {}".format(datetime.datetime.now().strftime("%H:%M"), datetime.date.today())
 
         # get the attachment image
         url = message.attachments[0].url

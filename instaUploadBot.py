@@ -11,6 +11,7 @@ import requests
 import shutil
 import textwrap
 import datetime
+import address
 
 # get credentials
 with open("./token.txt") as f:
@@ -35,40 +36,45 @@ async def on_ready():
 async def on_message(message):
     # check discord messages
     garb2 = ["verified", "Verified"]
+    place = ""
     if str(message.channel) == "confirmed-availibility" and len(message.content.split()) > 0:
-        msgs = message.content.splitlines()
+        msgs = message.clean_content.splitlines()
 
-        finalMsg = []
-        for msg in msgs:
+        for num, msg in enumerate(msgs):
             words = msg.split()
-            if any(x in garb2 for x in words):
+            for count, word in enumerate(words):
+                if "#" in word:
+                    if address.address(word) is True:
+                        words[count] = word[1:]
+                        place = word[1:]
+                    else:
+                        del words[count]
+                    msgs[num] = "\n".join(textwrap.wrap(" ".join(words), 35))
+                else:
+                    msgs[num] = "\n".join(textwrap.wrap(msg, 35))
 
-                x = [a for a in words if not "@" in a]
-                finalMsg.append("\n".join(textwrap.wrap(" ".join(x), 35)))
-            else:
-                z = [a for a in words if not "<" in a]
-                finalMsg.append("\n".join(textwrap.wrap(" ".join(z), 35)))
-
-        text = "\n".join(finalMsg)
-        text = text + "\n\nVerification time - {}, {}".format(datetime.datetime.now().strftime("%H:%M"), datetime.date.today())
+        text = "\n".join(msgs)
+        text = text + "\n\nVerification time - {}, {}\nLocation - {}".format(datetime.datetime.now().strftime("%H:%M"),
+                                                                             datetime.date.today(), place)
 
         # get the attachment image
-        url = message.attachments[0].url
-        r = requests.get(url, stream=True)
-        screenshot_name = "ss.jpeg"
-        with open(screenshot_name, "wb") as out_file:
-            shutil.copyfileobj(r.raw, out_file)
+        for num, attach in enumerate(message.attachments):
+            url = attach.url
+            r = requests.get(url, stream=True)
+            screenshot_name = "ss{}.jpeg".format(num)
+            with open(screenshot_name, "wb") as out_file:
+                shutil.copyfileobj(r.raw, out_file)
 
-        # save the attachment image with bg
-        bg = PIL.Image.open("./background.jpeg")
-        ss = PIL.Image.open("./ss.jpeg")
-        dim = ss.height * ss.width
-        ss_resize = ss.resize((int(ss.width/2), int(ss.height/2)))
-        if dim < 1000000:
-            PIL.Image.Image.paste(bg, ss, (250, 0))
-        else:
-            PIL.Image.Image.paste(bg, ss_resize, (250, 0))
-        bg.save("pasted.jpeg")
+            # save the attachment image with bg
+            bg = PIL.Image.open("./background.jpeg")
+            ss = PIL.Image.open("./ss{}.jpeg".format(num))
+            dim = ss.height * ss.width
+            ss_resize = ss.resize((int(ss.width / 2), int(ss.height / 2)))
+            if dim < 1000000:
+                PIL.Image.Image.paste(bg, ss, (250, 0))
+            else:
+                PIL.Image.Image.paste(bg, ss_resize, (250, 0))
+            bg.save("pasted{}.jpeg".format(num))
 
         # colored background
         color = (255, 255, 255)
@@ -113,7 +119,9 @@ async def on_message(message):
                 " SECTION #covid19India #covidhelp #covidresources #oxygencylinder"\
                 "#beds #icu #amplify #covid {}".format(" ".join(place_list))
 
-        photo_list = [Path("./myImage.jpeg"), Path("./pasted.jpeg")]
+        photo_list = [Path("./myImage.jpeg")]
+        for num, attach in enumerate(message.attachments):
+            photo_list.append(Path("./pasted{}.jpeg".format(num)))
         bot.album_upload(photo_list, caption)
 
         print("Instagram upload complete")

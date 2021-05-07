@@ -1,6 +1,5 @@
 venv/ 
 .idea/
 token.txt
-ss.jpeg
-myImage.jpeg
-pasted.jpeg
+*.jpeg*
+__pycache__/

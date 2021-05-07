@@ -76,12 +76,14 @@ async def on_message(message):
         for x, y in enumerate(word_list):
             word_list[x] = y.lower()
 
-        if any(x in ["cylinder", "cylinders", "can", "cans"] for x in word_list):
+        if any(x in ["icu", "bed", "beds", "ambulance", "home-icu"] for x in word_list):
+            color = (255, 69, 67)
+        elif any(x in ["blood", "plasma", "donor", "donate"] for x in word_list):
+            color = (109, 189, 0)
+        elif any(x in ["cylinder", "cylinders", "can", "cans"] for x in word_list):
             color = (73, 146, 211)
         elif "concentrator" in word_list:
             color = (73, 146, 211)
-        elif any(x in ["icu", "bed", "beds", "ambulance", "home-icu", "home", "plasma", "donor", "blood"] for x in word_list):
-            color = (255, 69, 67)
         else:
             color = (215, 164, 0)
 

@@ -11,7 +11,7 @@ import requests
 import shutil
 import textwrap
 import datetime
-import address
+from address import Address
 
 # get credentials
 with open("./token.txt") as f:
@@ -37,6 +37,7 @@ async def on_message(message):
     # check discord messages
     garb2 = ["verified", "Verified"]
     place = ""
+    adrs = Address()
     if str(message.channel) == "confirmed-availibility" and len(message.content.split()) > 0:
         msgs = message.clean_content.splitlines()
 
@@ -44,7 +45,7 @@ async def on_message(message):
             words = msg.split()
             for count, word in enumerate(words):
                 if "#" in word:
-                    if address.address(word) is True:
+                    if adrs.hash_address(word) is True:
                         words[count] = word[1:]
                         place = word[1:]
                     else:
@@ -54,6 +55,10 @@ async def on_message(message):
                     msgs[num] = "\n".join(textwrap.wrap(msg, 35))
 
         text = "\n".join(msgs)
+        if len(place) > 0:
+            pass
+        else:
+            place = adrs.find_place(message.clean_content)
         text = text + "\n\nVerification time - {}, {}\nLocation - {}".format(datetime.datetime.now().strftime("%H:%M"),
                                                                              datetime.date.today(), place)
 
@@ -124,7 +129,7 @@ async def on_message(message):
             photo_list.append(Path("./pasted{}.jpeg".format(num)))
         bot.album_upload(photo_list, caption)
 
-        print("Instagram upload complete")
+        print("Instagram upload complete at {}".format(datetime.datetime.now().strftime("%H:%M")))
 
 
 client.run(TOKEN[0])

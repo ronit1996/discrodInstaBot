@@ -1,5 +1,4 @@
-def address(city):
-    """The function returns true if the passed argument matches any place mentioned in the server"""
+class Address:
     list_of_places = ["andhra-pradesh", "assam", "bihar", "chattisgarh", "gujarat", "goa", "haryana",
                       "himachal-pradesh",
                       "jammu-and-kashmir", "jharkhand", "maharashtra", "karnataka", "kerala", "madhya-pradesh",
@@ -10,13 +9,24 @@ def address(city):
                       "dadra-and-nagar-haveli", "dehra-dun", "ghaziabad", "hyderabad", "indore", "jaipur", "jammu",
                       "kanpur", "kolkata", "kota", "lucknow", "mumbai", "nagpur", "nashik", "new-delhi-ncr", "pune",
                       "patna", "prayagraj_allahbad", "ranchi", "raipur", "sonipat", "surat", "vadodra-baroda",
-                      "varanasi",
-                      "amritsar", "aligarh"]
+                      "varanasi", "amritsar", "aligarh", "delhi", "gurgaon", "gurugram"]
 
-    city_with_no_hash = city[1:]
-    if city_with_no_hash in list_of_places:
-        return True
-    else:
-        return False
+    def hash_address(self, city):
+        """matches the tagged city with the cities list and removes the hash"""
+        city_with_no_hash = city[1:]
+        if city_with_no_hash in self.list_of_places:
+            return True
+        else:
+            return False
+
+    def find_place(self, messages):
+        for x in messages.split():
+            if x.lower() in self.list_of_places:
+                return x
+            else:
+                pass
+
+
+
 
 

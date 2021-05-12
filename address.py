@@ -10,7 +10,7 @@ class Address:
                       "dadra-and-nagar-haveli", "dehra-dun", "ghaziabad", "hyderabad", "indore", "jaipur", "jammu",
                       "kanpur", "kolkata", "kota", "lucknow", "mumbai", "nagpur", "nashik", "new-delhi-ncr", "pune",
                       "patna", "prayagraj_allahbad", "ranchi", "raipur", "sonipat", "surat", "vadodra-baroda",
-                      "varanasi", "amritsar", "aligarh", "delhi", "gurgaon", "gurugram"]
+                      "varanasi", "amritsar", "aligarh", "delhi", "gurgaon", "gurugram", "noida", "rishikesh", "delhincr"]
 
     def hash_address(self, city):
         """matches the tagged city with the cities list and removes the hash"""

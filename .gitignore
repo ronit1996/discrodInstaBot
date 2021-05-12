@@ -1,5 +1,7 @@
 venv/ 
 .idea/
 token.txt
+token_RnD.txt
 *.jpeg*
 __pycache__/
+message.txt

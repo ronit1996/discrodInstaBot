@@ -16,7 +16,7 @@ import image_maker
 from image_maker import image_maker
 
 # get credentials
-with open("./token_RnD.txt") as f:
+with open("./token.txt") as f:
     TOKEN = f.readlines()
 
 instagram log in

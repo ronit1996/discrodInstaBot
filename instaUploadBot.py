@@ -19,7 +19,7 @@ from image_maker import image_maker
 with open("./token.txt") as f:
     TOKEN = f.readlines()
 
-instagram log in
+# instagram log in
 bot = Client()
 username = TOKEN[1]
 password = TOKEN[2]

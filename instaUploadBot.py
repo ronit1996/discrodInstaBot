@@ -12,12 +12,14 @@ import shutil
 import textwrap
 import datetime
 from address import Address
+import image_maker
+from image_maker import image_maker
 
 # get credentials
-with open("./token.txt") as f:
+with open("./token_RnD.txt") as f:
     TOKEN = f.readlines()
 
-# instagram log in
+instagram log in
 bot = Client()
 username = TOKEN[1]
 password = TOKEN[2]
@@ -47,20 +49,13 @@ async def on_message(message):
                 if "#" in word:
                     if adrs.hash_address(word) is True:
                         words[count] = word[1:]
-                        place = word[1:]
-                    else:
-                        del words[count]
                     msgs[num] = "\n".join(textwrap.wrap(" ".join(words), 35))
                 else:
                     msgs[num] = "\n".join(textwrap.wrap(msg, 35))
 
         text = "\n".join(msgs)
-        if len(place) > 0:
-            pass
-        else:
-            place = adrs.find_place(message.clean_content)
-        text = text + "\n\nVerification time - {}, {}\nLocation - {}".format(datetime.datetime.now().strftime("%H:%M"),
-                                                                             datetime.date.today(), place)
+        text = text + "\n\nVerification time - {}, {}".format(datetime.datetime.now().strftime("%H:%M"),
+                                                                             datetime.date.today())
 
         # get the attachment image
         for num, attach in enumerate(message.attachments):
@@ -81,33 +76,8 @@ async def on_message(message):
                 PIL.Image.Image.paste(bg, ss_resize, (250, 0))
             bg.save("pasted{}.jpeg".format(num))
 
-        # colored background
-        color = (255, 255, 255)
-        word_list = message.content.split()
-        for x, y in enumerate(word_list):
-            word_list[x] = y.lower()
-
-        if any(x in ["icu", "bed", "beds", "ambulance", "home-icu"] for x in word_list):
-            color = (255, 69, 67)
-        elif any(x in ["blood", "plasma", "donor", "donate"] for x in word_list):
-            color = (109, 189, 0)
-        elif any(x in ["cylinder", "cylinders", "can", "cans"] for x in word_list):
-            color = (73, 146, 211)
-        elif "concentrator" in word_list:
-            color = (73, 146, 211)
-        else:
-            color = (215, 164, 0)
-
-        # create the image
-        img = PIL.Image.new('RGB', (1080, 1350), color)
-        d = PIL.ImageDraw.Draw(img)
-        myfont = PIL.ImageFont.truetype("Lato-Bold.ttf", 50)
-        d.text((30, 30), text, fill=(0, 0, 0), font=myfont)
-
-        img_name = "myImage"
-
-        # save the image
-        img.save("./{}".format(img_name) + '.jpeg')
+        # make and save the image
+        image_maker(text)
 
         # upload the image on instagram
         place_list = []
@@ -133,4 +103,3 @@ async def on_message(message):
 
 
 client.run(TOKEN[0])
-

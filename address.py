@@ -28,8 +28,9 @@ class Address:
         for x in messages.split():
             replace_table = str.maketrans(string.punctuation, " "*len(string.punctuation))
             y = x.lower().translate(replace_table)
-            y = y[1:]
-            if y in self.list_of_places:
+            if y[1:] in self.list_of_places:
+                return y[1:]
+            elif y in self.list_of_places:
                 return y
             else:
                 pass

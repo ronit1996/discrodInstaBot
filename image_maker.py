@@ -3,9 +3,7 @@ import PIL.ImageDraw
 import PIL.Image
 import PIL.ImageFont
 import address
-
-with open("./message.txt") as f:
-    text = f.read() 
+ 
 
 class Tag:
     def __init__(self, input_text):
@@ -14,7 +12,7 @@ class Tag:
         blood = ["blood", "plasma", "donor", "donate"]
         o2 = ["cylinder", "cylinders", "can", "cans", "concentrator", "oxygencylinder"]
         misc = ["food", "delivery", "meal", "meals", "refill", "refilling"]
-        meds = ["tocilizumab", "remdesivir", "liposomal", "bevacizumab", "medicine", "medicines", "injection", "fabiflu"]
+        meds = ["tocilizumab", "remdesivir", "liposomal", "bevacizumab", "medicine", "medicines", "injection", "fabiflu", "favipiravir"]
 
         # remove the punctuation
         replace_table = str.maketrans("", "", string.punctuation)
@@ -76,7 +74,7 @@ class TagCreate:
 
 
 # create final image
-def image_maker(text):
+def image_maker(text, place):
     myfont = PIL.ImageFont.truetype("Lato-Bold.ttf", 50)
     tag = Tag(text)
 
@@ -90,14 +88,11 @@ def image_maker(text):
     text_elements = " ".join(clean)
 
     # create the tags
-    add = address.Address()
-    place = add.find_place(text)
-    #fix punctuations
     fixed_place = ""
     if place == "new delhi ncr":
         fixed_place = "Delhi"
     else:
-        fixed_place = place
+        fixed_place = str(place)
 
     key_word_tag = TagCreate(d, text, text_elements, myfont)
     location_tag = TagCreate(d, text, fixed_place, myfont, key_word_tag.thickness+30)
@@ -122,6 +117,3 @@ def image_maker(text):
     # save the image
     img_name = "myImage"
     img.save("./{}".format(img_name) + '.jpeg')
-
-
-image_maker(text)

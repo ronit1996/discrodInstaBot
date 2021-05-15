@@ -38,7 +38,6 @@ async def on_ready():
 async def on_message(message):
     # check discord messages
     garb2 = ["verified", "Verified"]
-    place = ""
     adrs = Address()
     if str(message.channel) == "confirmed-availibility" and len(message.content.split()) > 0:
         msgs = message.clean_content.splitlines()
@@ -47,14 +46,13 @@ async def on_message(message):
             words = msg.split()
             for count, word in enumerate(words):
                 if "#" in word:
-                    if adrs.hash_address(word) is True:
-                        words[count] = word[1:]
+                    words[count] = adrs.hash_address(word)
                     msgs[num] = "\n".join(textwrap.wrap(" ".join(words), 35))
                 else:
                     msgs[num] = "\n".join(textwrap.wrap(msg, 35))
 
         text = "\n".join(msgs)
-        text = text + "\n\nVerification time - {}, {}".format(datetime.datetime.now().strftime("%H:%M"),
+        text = text + "\nVerification time - {}, {}".format(datetime.datetime.now().strftime("%H:%M"),
                                                                              datetime.date.today())
 
         # get the attachment image
@@ -77,7 +75,7 @@ async def on_message(message):
             bg.save("pasted{}.jpeg".format(num))
 
         # make and save the image
-        image_maker(text)
+        image_maker(text, adrs.find_place(message.clean_content))
 
         # upload the image on instagram
         place_list = []

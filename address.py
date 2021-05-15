@@ -19,9 +19,9 @@ class Address:
         replace_table = str.maketrans(string.punctuation, " "*len(string.punctuation))
         city_with_no_hash = city[1:].translate(replace_table)
         if city_with_no_hash in self.list_of_places:
-            return True
+            return city_with_no_hash
         else:
-            return False
+            return city
 
     def find_place(self, messages):
         
@@ -34,15 +34,3 @@ class Address:
             else:
                 pass
 
-with open("./message.txt") as f:
-    text = f.read()
-
-ad = Address()
-# sen = "My home is in #uttar-pradesh"
-# for x in sen.split():
-#   replace_table = str.maketrans(string.punctuation, " "*len(string.punctuation))
-#   y = x.lower().translate(replace_table)
-#   y = y[1:]
-
-# print(y)
-print(ad.find_place(text))

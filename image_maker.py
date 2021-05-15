@@ -12,7 +12,7 @@ class Tag:
         """This funtion returns the tags needed for colored background and tags"""
         hosp = ["bed", "beds","home-icu", "icu", "ventilator", "home"]
         blood = ["blood", "plasma", "donor", "donate"]
-        o2 = ["cylinder", "cylinders", "can", "cans", "concentrator"]
+        o2 = ["cylinder", "cylinders", "can", "cans", "concentrator", "oxygencylinder"]
         misc = ["food", "delivery", "meal", "meals", "refill", "refilling"]
         meds = ["tocilizumab", "remdesivir", "liposomal", "bevacizumab", "medicine", "medicines", "injection", "fabiflu"]
 
@@ -92,14 +92,12 @@ def image_maker(text):
     # create the tags
     add = address.Address()
     place = add.find_place(text)
-
     #fix punctuations
     fixed_place = ""
-    if place == "#new-delhi-ncr":
+    if place == "new delhi ncr":
         fixed_place = "Delhi"
     else:
-        replace_table = str.maketrans(string.punctuation, " "*len(string.punctuation))
-        fixed_place = place.translate(replace_table)
+        fixed_place = place
 
     key_word_tag = TagCreate(d, text, text_elements, myfont)
     location_tag = TagCreate(d, text, fixed_place, myfont, key_word_tag.thickness+30)
@@ -126,3 +124,4 @@ def image_maker(text):
     img.save("./{}".format(img_name) + '.jpeg')
 
 
+image_maker(text)

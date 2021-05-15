@@ -24,11 +24,25 @@ class Address:
             return False
 
     def find_place(self, messages):
-        replace_table = str.maketrans(string.punctuation, " "*len(string.punctuation))
+        
         for x in messages.split():
-            if x.lower().translate(replace_table) in self.list_of_places:
-                return x
+            replace_table = str.maketrans(string.punctuation, " "*len(string.punctuation))
+            y = x.lower().translate(replace_table)
+            y = y[1:]
+            if y in self.list_of_places:
+                return y
             else:
                 pass
 
+with open("./message.txt") as f:
+    text = f.read()
 
+ad = Address()
+# sen = "My home is in #uttar-pradesh"
+# for x in sen.split():
+#   replace_table = str.maketrans(string.punctuation, " "*len(string.punctuation))
+#   y = x.lower().translate(replace_table)
+#   y = y[1:]
+
+# print(y)
+print(ad.find_place(text))

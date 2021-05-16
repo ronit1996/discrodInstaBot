@@ -26,12 +26,24 @@ class Address:
     def find_place(self, messages):
         
         for x in messages.split():
+
+            # replace all punctuations with spaces
             replace_table = str.maketrans(string.punctuation, " "*len(string.punctuation))
             y = x.lower().translate(replace_table)
+
+            # if there is a space in the beginning due to hash tag
             if y[1:] in self.list_of_places:
                 return y[1:]
+
+            # if there is a space at the end due to comma
+            elif y[:-1] in self.list_of_places:
+                return y[:-1]
+
+            # if there is no space in the beginning
             elif y in self.list_of_places:
                 return y
+
+            # else return nothing
             else:
                 pass
-
+                

@@ -8,10 +8,10 @@ import address
 class Tag:
     def __init__(self, input_text):
         """This funtion returns the tags needed for colored background and tags"""
-        hosp = ["bed", "beds","home-icu", "icu", "ventilator", "home"]
+        hosp = ["bed", "beds","home-icu", "icu", "ventilator", "home", "bipap"]
         blood = ["blood", "plasma", "donor", "donate"]
         o2 = ["cylinder", "cylinders", "can", "cans", "concentrator", "oxygencylinder"]
-        misc = ["food", "delivery", "meal", "meals", "refill", "refilling"]
+        misc = ["food", "delivery", "meal", "meals", "refill", "refilling", "tiffin", "rtpcr", "langar"]
         meds = ["tocilizumab", "remdesivir", "liposomal", "bevacizumab", "medicine", "medicines", "injection", "fabiflu", "favipiravir"]
 
         # remove the punctuation

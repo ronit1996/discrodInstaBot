@@ -13,7 +13,7 @@ class Address:
                       "kanpur", "kolkata", "kota", "lucknow", "mumbai", "nagpur", "nashik", "new delhi ncr", "pune",
                       "patna", "prayagraj allahbad", "ranchi", "raipur", "sonipat", "surat", "vadodra baroda",
                       "varanasi", "amritsar", "aligarh", "delhi", "gurgaon", "gurugram", "noida", "rishikesh", "delhincr", "dwarka",
-                      "rajkot", "dehradun"]
+                      "rajkot", "dehradun", "bengal", "goa", "vijaywada", "india", "coimbatore", "nellore", "salem"]
 
     def hash_address(self, city):
         """matches the tagged city with the cities list and removes the hash"""
@@ -25,7 +25,7 @@ class Address:
             return city
 
     def find_place(self, messages):
-        
+
         for x in messages.split():
 
             # replace all punctuations with spaces
@@ -47,4 +47,3 @@ class Address:
             # else return nothing
             else:
                 pass
-                

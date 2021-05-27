@@ -39,7 +39,7 @@ async def on_message(message):
     # check discord messages
     garb2 = ["verified", "Verified"]
     adrs = Address()
-    if str(message.channel) == "confirmed-availibility" and len(message.content.split()) > 0:
+    if str(message.channel) == "test" and len(message.content.split()) > 0:
         msgs = message.clean_content.splitlines()
 
         for num, msg in enumerate(msgs):

@@ -3,14 +3,14 @@ import PIL.ImageDraw
 import PIL.Image
 import PIL.ImageFont
 import address
- 
+
 
 class Tag:
     def __init__(self, input_text):
         """This funtion returns the tags needed for colored background and tags"""
-        hosp = ["bed", "beds","home-icu", "icu", "ventilator", "home", "bipap"]
+        hosp = ["bed", "beds","home-icu", "icu", "ventilator", "bipap"]
         blood = ["blood", "plasma", "donor", "donate"]
-        o2 = ["cylinder", "cylinders", "can", "cans", "concentrator", "oxygencylinder"]
+        o2 = ["cylinder", "cylinders", "oxygencan", "cans", "concentrator", "concentrators", "oxygencylinder"]
         misc = ["food", "delivery", "meal", "meals", "refill", "refilling", "tiffin", "rtpcr", "langar"]
         meds = ["tocilizumab", "remdesivir", "liposomal", "bevacizumab", "medicine", "medicines", "injection", "fabiflu", "favipiravir"]
 
@@ -24,31 +24,40 @@ class Tag:
             word_list[count] = word.lower().translate(replace_table)
 
         # get tags
-        for word in word_list:
+        i = 0
+        while i <= len(word_list):
+            word = word_list[i]
             if word in hosp:
                 self.tag.append(word)
                 self.color = (233,141,142)
                 self.icon = "./icons/hospital.png"
+                break
             elif word in blood:
                 self.tag.append(word)
                 self.color = (140,199,169)
                 self.icon = "./icons/plasma.png"
+                break
             elif word == "ambulance":
                 self.tag.append(word)
                 self.color = (240,173,182)
                 self.icon = "./icons/ambulance.png"
+                break
             elif word in meds:
                 self.tag.append(word)
                 self.color = (199,173,200)
                 self.icon = "./icons/medicine.png"
+                break
             elif word in o2:
                 self.tag.append(word)
                 self.color = (135,181,207)
                 self.icon = "./icons/oxygen.png"
+                break
             elif word in misc:
                 self.tag.append(word)
                 self.color = (250,241,140)
                 self.icon = "./icons/others.png"
+                break
+            i = i+1
 
 
 
